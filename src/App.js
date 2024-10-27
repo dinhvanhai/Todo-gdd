@@ -4,12 +4,16 @@ import TodoList from './TodoList';
 import useTodoStore from './store';
 
 function App() {
-  const { todos, addTodo, clearCompleted, setFilter, filter, getFilteredTodos } = useTodoStore();
+  const { todos, addTodo,loadTodo, clearCompleted, setFilter, filter, getFilteredTodos } = useTodoStore();
   const [input, setInput] = useState('');
 
   useEffect(() => {
     const storedTodos = JSON.parse(localStorage.getItem('todos')) || [];
-    storedTodos.forEach((todo) => addTodo(todo.text));
+    storedTodos.forEach((todo) => loadTodo({
+      id: todo.id,
+      text: todo.text,
+      completed: todo.completed,
+    }));
   }, [addTodo]);
 
   useEffect(() => {
@@ -26,7 +30,6 @@ function App() {
   return (
     <div className="todoapp">
       <header className="header">
-        <h1>todos</h1>
         <input
           className="new-todo"
           placeholder="What needs to be done?"
@@ -36,11 +39,13 @@ function App() {
         />
       </header>
       <TodoList />
-      <footer className="footer">
+      {todos?.length > 0 && (
+        <footer className="footer">
+       
+        <div className="filters">
         <span className="todo-count">
           {todos.filter((todo) => !todo.completed).length} items left
         </span>
-        <div className="filters">
           <button onClick={() => setFilter('all')} className={filter === 'all' ? 'selected' : ''}>
             All
           </button>
@@ -50,11 +55,13 @@ function App() {
           <button onClick={() => setFilter('completed')} className={filter === 'completed' ? 'selected' : ''}>
             Completed
           </button>
-        </div>
-        <button className="clear-completed" onClick={clearCompleted}>
+          <button className="clear-completed" onClick={clearCompleted}>
           Clear completed
         </button>
+        </div>
       </footer>
+      )}
+      
     </div>
   );
 }

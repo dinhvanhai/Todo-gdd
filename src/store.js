@@ -9,6 +9,11 @@ const useTodoStore = create((set) => ({
       todos: [...state.todos, { id: Date.now(), text, completed: false }],
     })),
 
+  loadTodo: (items) =>
+    set((state) => ({
+      todos: [...state.todos, items],
+    })),
+
   toggleTodo: (id) =>
     set((state) => ({
       todos: state.todos.map((todo) =>

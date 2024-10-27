@@ -28,7 +28,7 @@ function TodoItem({ todo }) {
           onChange={() => toggleTodo(todo.id)}
         />
         <label onDoubleClick={handleEdit}>{todo.text}</label>
-        <button className="destroy" onClick={() => deleteTodo(todo.id)} />
+        {/* <button className="destroy" onClick={() => deleteTodo(todo.id)} >delete</button> */}
       </div>
       {isEditing && (
         <input
